@@ -37,12 +37,20 @@
     <script>
       const apiKey = "64ac9428e107e7083440795ab6c2abe4";
       const apiURL =
-        "https://api.openweathermap.org/data/2.5/weather?q={budapest}&units=metric";
+        "https://api.openweathermap.org/data/2.5/weather?&units=metricq=budapest";
 
-      async function getWeatherByLocation() {
-        const response = await fetch(apiURL + `&appid=${apiKey}`);
+      async function getWeatherByLocation(city) {
+        const response = await fetch(apiURL + city + `&appid=${apiKey}`);
         const responseData = await response.json();
         console.log(responseData);
+
+        document.querySelector(".city").innerHTML = responseData.name;
+        document.querySelector(".temp").innerHTML =
+          Math.round(responseData.main.temp) + "°C";
+        document.querySelector(".humidity").innerHTML =
+          responseData.main.humidity + "%";
+        document.querySelector(".wind").innerHTML =
+          responseData.wind.speed + "km/h";
       }
 
       getWeatherByLocation();
