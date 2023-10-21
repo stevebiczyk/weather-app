@@ -41,6 +41,10 @@
 
       async function getWeatherByLocation(city) {
         const response = await fetch(apiURL + city + `&appid=${apiKey}`);
+
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+
         const responseData = await response.json();
         console.log(responseData);
 
@@ -53,7 +57,10 @@
           responseData.wind.speed + "km/h";
       }
 
-      getWeatherByLocation();
+      searchBtn.addEventListener("click", () => {
+        const city = searchBox.value;
+        getWeatherByLocation(searchBox.value);
+      });
     </script>
   </body>
 </html>
