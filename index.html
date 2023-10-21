@@ -40,12 +40,16 @@
     <script>
       const apiKey = "64ac9428e107e7083440795ab6c2abe4";
       const apiURL =
-        "https://api.openweathermap.org/data/2.5/weather?&units=metricq=budapest";
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button");
+      const weatherIcon = document.querySelector(".weather-icon");
 
       async function getWeatherByLocation(city) {
         const response = await fetch(apiURL + city + `&appid=${apiKey}`);
 
-        if (!response.status === 404) {
+        if (response.status === 404) {
           document.querySelector(".error").style.display = "block";
           document.querySelector(".weather").style.display = "none";
         } else {
@@ -57,7 +61,7 @@
           document.querySelector(".humidity").innerHTML =
             responseData.main.humidity + "%";
           document.querySelector(".wind").innerHTML =
-            responseData.wind.speed + "m/s";
+            Math.round(responseData.wind.speed * 3.6) + "km/h";
 
           if (responseData.weather[0].main == "Clouds") {
             weatherIcon.src = "images/clouds.png";
@@ -74,15 +78,11 @@
           document.querySelector(".weather").style.display = "block";
           document.querySelector(".error").style.display = "none";
         }
-
-        const searchBox = document.querySelector(".search input");
-        const searchBtn = document.querySelector(".search button");
-        const weatherIcon = document.querySelector(".weather-icon");
       }
 
       searchBtn.addEventListener("click", () => {
         const city = searchBox.value;
-        getWeatherByLocation(searchBox.value);
+        getWeatherByLocation(city);
       });
     </script>
   </body>
